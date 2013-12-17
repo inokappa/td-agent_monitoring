@@ -1,6 +1,26 @@
-<div class="span6" style="height:100px; margin:0 auto 0 auto">
-Hostname : <%= @result[0] %> <br />
-buffer_queue_length : <%= @result[1] %> <br />
-buffer_total_queued_size : <%= @result[2] %> <br />
-status : <%= @result[3] %> <br />
+<div class="panel panel-default">
+  <div class="panel-heading">Host list</div>
+
+  <!-- Table -->
+  <table class="table">
+<thead>
+            <tr>
+              <th>Hostname</th>
+              <th>buffer_queue_length</th>
+              <th>buffer_total_queued_size</th>
+              <th>status</th>
+            </tr>
+          </thead>
+<tbody>
+<% @result.each do |huga| %>
+<tr>
+<td><%= huga[:host] %></td> 
+<td><%= huga[:buffer_queue_length] %></td>
+<td><%= huga[:buffer_total_queued_size] %></td>
+<td><%= huga[:stats] %></td>
+</tr>
+<% end %>
+</tbody>
+  </table>
+
 </div>

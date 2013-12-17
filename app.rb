@@ -7,8 +7,9 @@ require 'sinatra/reloader'
 
 get '/status' do
   file = open("./list.txt")
+  hoge = []
   while text = file.gets do
-    result = []
+    result = {}
     arr = text.split(",")
     status_url = "http://#{arr[0]}:24220/api/plugins.json"
     begin
@@ -18,23 +19,30 @@ get '/status' do
         when OpenURI::HTTPError
           puts "status URL does not access."
           stats = "critical"
+          exit 1
         end
     else
       parsed = JSON.parser.new(status_html).parse()
-      bql = parsed["plugins"][4]['buffer_queue_length'].to_i
-      btqs = parsed["plugins"][4]['buffer_total_queued_size'].to_i
-      if (bql >= 3 and btqs >= 1000)
+      host = "#{arr[0]}"
+      type = parsed['plugins'][2]['type']
+      rtc = parsed['plugins'][2]['retry_count']
+      bql = parsed['plugins'][2]['buffer_queue_length']
+      btqs = parsed['plugins'][2]['buffer_total_queued_size']
+      if (rtc >= 1 and bql >= 1 and btqs >= 20000 )
         stats = "warning"
+        flag << '1'
       else
-        stats = "healty"
+        stats = "normally"
       end
-      result << "#{arr[0]}"
-      result << bql
-      result << btqs
-      result << stats
+      result[:host] = host
+      result[:type] = type
+      result[:retry_count] = rtc
+      result[:buffer_queue_length] = bql
+      result[:buffer_total_queued_size] = btqs
+      result[:stats] = stats
     end
-    p result
+  hoge << result
+  @result = hoge
   end
-  @result = result
   erb :index
 end
