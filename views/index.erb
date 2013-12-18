@@ -2,25 +2,36 @@
   <div class="panel-heading">Host list</div>
 
   <!-- Table -->
-  <table class="table">
-<thead>
-            <tr>
-              <th>Hostname</th>
-              <th>buffer_queue_length</th>
-              <th>buffer_total_queued_size</th>
-              <th>status</th>
-            </tr>
-          </thead>
-<tbody>
-<% @result.each do |huga| %>
-<tr>
-<td><%= huga[:host] %></td> 
-<td><%= huga[:buffer_queue_length] %></td>
-<td><%= huga[:buffer_total_queued_size] %></td>
-<td><%= huga[:stats] %></td>
-</tr>
+    <table class="table">
+      <thead>
+         <tr>
+           <th>Hostname / IP address</th>
+           <th>Plugin Type</th>
+           <th>retry_count</th>
+           <th>buffer_queue_length</th>
+           <th>buffer_total_queued_size</th>
+           <th>status</th>
+          </tr>
+      </thead>
+         <tbody>
+<!-- -->
+<% @result.each do |statuses| %>
+          <tr>
+          <td><%= statuses[:host] %></td> 
+          <td><%= statuses[:type] %></td> 
+          <td><%= statuses[:retry_count] %></td> 
+          <td><%= statuses[:buffer_queue_length] %></td>
+          <td><%= statuses[:buffer_total_queued_size] %></td>
+          <% if statuses[:stats] == "normally" %>
+            <td><span class="label label-success"><%= statuses[:stats] %></span></td>
+          <% elsif statuses[:stats] == "warning" %>
+            <td><span class="label label-warning"><%= statuses[:stats] %></span></td>
+          <% elsif statuses[:stats] == "critical" %>
+            <td><span class="label label-warning"><%= statuses[:stats] %></span></td>
+          <% end %>
+          </tr>
 <% end %>
-</tbody>
-  </table>
-
+<!-- -->
+         </tbody>
+    </table>
 </div>

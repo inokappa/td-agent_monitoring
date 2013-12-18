@@ -7,7 +7,7 @@ require 'sinatra/reloader'
 
 get '/status' do
   file = open("./list.txt")
-  hoge = []
+  statuses = []
   while text = file.gets do
     result = {}
     arr = text.split(",")
@@ -41,8 +41,8 @@ get '/status' do
       result[:buffer_total_queued_size] = btqs
       result[:stats] = stats
     end
-  hoge << result
-  @result = hoge
+  statuses << result
+  @result = statuses
   end
   erb :index
 end
