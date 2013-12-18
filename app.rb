@@ -28,7 +28,7 @@ get '/status' do
       rtc = parsed['plugins'][2]['retry_count']
       bql = parsed['plugins'][2]['buffer_queue_length']
       btqs = parsed['plugins'][2]['buffer_total_queued_size']
-      if (rtc >= 1 and bql >= 1 and btqs >= 20000 )
+      if (rtc >= 10 or bql >= 256 or btqs >= 2147483648 )
         stats = "warning"
         flag << '1'
       else
