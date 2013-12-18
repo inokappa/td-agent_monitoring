@@ -9,6 +9,6 @@
  1. add td-agent host ip to `list.txt`
  1. bundle exec rackup config.ru
 
-## Screen Shot
+## Screenshot
 
  ![](http://cdn-ak.f.st-hatena.com/images/fotolife/i/inokara/20131219/20131219052621.png)
