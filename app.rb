@@ -4,6 +4,8 @@ require 'json'
 require 'open-uri'
 require 'erb'
 require 'sinatra/reloader'
+require 'net/http'
+Net::HTTP.version_1_2
 
 get '/status' do
   file = open("./list.txt")
@@ -39,6 +41,10 @@ get '/status' do
       result[:retry_count] = rtc
       result[:buffer_queue_length] = bql
       result[:buffer_total_queued_size] = btqs
+      Net::HTTP.start('localhost', 5125) {|http|
+        response = http.post("/api/td-agent/#{host}/buffer_total_queued_size","number=#{btqs}")
+        puts response.body
+      }
       result[:stats] = stats
     end
   statuses << result
