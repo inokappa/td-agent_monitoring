@@ -1,37 +1,101 @@
-<div class="panel panel-default">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>td-agent monitoring</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Refresh" content="300">
+    <meta charset=utf-8 />
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/google-code-prettify/prettify.css" rel="stylesheet">
+    <script src="../css/google-code-prettify/prettify.js"></script>
+    <!-- 
+    <script type="text/javascript" src="js/enhance.js"></script>
+        <script type="text/javascript">
+                // Run capabilities test
+                enhance({
+                        loadScripts: [
+                                {src: 'js/excanvas.js', iecondition: 'all'},
+                                'js/jquery.js',
+                                'js/visualize.jQuery.js'
+                        ],
+                        loadStyles: [
+                                'css/visualize.css',
+                                'css/visualize-dark.css'
+                        ]
+                });
+    </script>
+    -->
+  </head>
+  <body>
+    <div class="page-header">
+      <h3>td-agent monitoring<small></small></h3>
+    </div>
+    <!--
+    <p class="navbar-text"></p>
+    -->
+    <div class="col-lg-4">
+<% @result.each do |statuses| %>
+<% if statuses[:stats] == "normally" %>
+<div class="panel panel-success">
+<% elsif statuses[:stats] == "warning" %>
+<div class="panel panel-warning">
+<% elsif statuses[:stats] == "critical" %>
+<div class="panel panel-danger">
+<% end %>
   <div class="panel-heading">Host detail</div>
-
   <!-- Table -->
     <table class="table">
       <thead>
          <tr>
-           <th>Hostname / IP address</th>
-           <th>Plugin Type</th>
-           <th>retry_count</th>
-           <th>buffer_queue_length</th>
-           <th>buffer_total_queued_size</th>
-           <th>status</th>
+           <th>Paramater</th>
+           <th>Value</th>
           </tr>
       </thead>
          <tbody>
-<!-- -->
-<% @result.each do |statuses| %>
           <tr>
-          <td><%= statuses[:host] %></a></td> 
-          <td><%= statuses[:type] %></td> 
-          <td><%= statuses[:retry_count] %></td> 
-          <td><%= statuses[:buffer_queue_length] %></td>
-          <td><%= statuses[:buffer_total_queued_size] %></td>
-          <% if statuses[:stats] == "normally" %>
-            <td><span class="label label-success"><%= statuses[:stats] %></span></td>
-          <% elsif statuses[:stats] == "warning" %>
-            <td><span class="label label-warning"><%= statuses[:stats] %></span></td>
-          <% elsif statuses[:stats] == "critical" %>
-            <td><span class="label label-warning"><%= statuses[:stats] %></span></td>
-          <% end %>
+            <td>Hostname / IP address</td>
+            <td><%= statuses[:host] %></a></td>
+          </tr>
+          <tr>
+            <td>Plugin Type</td>
+            <td><%= statuses[:type] %></td>
+          </tr>
+          <tr>
+            <td>retry_count</td>
+            <td><%= statuses[:retry_count] %></td>
+          </tr>
+          <tr>
+            <td>buffer_queue_length</td>
+            <td><%= statuses[:buffer_queue_length] %></td>
+          </tr>
+          <tr>
+            <td>buffer_total_queued_size</td>
+            <td><%= statuses[:buffer_total_queued_size] %></td>
+          </tr>
+          <tr>
+            <td>status</td>
+            <% if statuses[:stats] == "normally" %>
+              <td><span class="label label-success"><%= statuses[:stats] %></span></td>
+            <% elsif statuses[:stats] == "warning" %>
+              <td><span class="label label-warning"><%= statuses[:stats] %></span></td>
+            <% elsif statuses[:stats] == "critical" %>
+              <td><span class="label label-warning"><%= statuses[:stats] %></span></td>
+            <% end %>
           </tr>
 <% end %>
-<!-- -->
          </tbody>
     </table>
 </div>
+</div>
+<div class="col-lg-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">Response JSON</div>
+    <pre class="prettyprint"> <%= @rawjson %></pre>
+  </div>
+</div>
+
+<div id="footer"><a href="../status">back</a></div>
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>

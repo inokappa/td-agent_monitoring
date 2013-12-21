@@ -17,13 +17,15 @@ GEM
       do_sqlite3 (~> 0.10.6)
     do_sqlite3 (0.10.13)
       data_objects (= 0.10.13)
-    json (1.5.5)
+    json (1.8.1)
+    libv8 (3.16.14.3)
     multi_json (1.8.2)
     rack (1.5.2)
     rack-protection (1.5.1)
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    ref (1.0.5)
     sinatra (1.4.4)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -35,6 +37,9 @@ GEM
       rack-test
       sinatra (~> 1.4.0)
       tilt (~> 1.3)
+    therubyracer (0.12.0)
+      libv8 (~> 3.16.14.0)
+      ref
     tilt (1.4.1)
 
 PLATFORMS
@@ -45,5 +50,7 @@ DEPENDENCIES
   dm-migrations
   dm-sqlite-adapter
   json
+  multi_json
   sinatra
   sinatra-contrib
+  therubyracer

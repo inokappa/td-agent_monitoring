@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'json'
 require 'open-uri'
 require 'erb'
 require 'sinatra/reloader'
+require 'multi_json'
+require 'json'
 
 class Getstatus 
   def parse_status(hostid,host)
@@ -28,6 +29,11 @@ class Getstatus
     result[:stats] = stats
     return result
   end
+  def raw_json(hostid,host)
+    status_html = open("http://#{host}:24220/api/plugins.json").read
+    parsed = MultiJson.load(status_html)
+    return parsed
+  end
 end
 
 get '/status' do
@@ -50,11 +56,18 @@ get '/status/:hostid' do
     arr << text.split(",")
   end
   tdhost = arr.assoc("#{params[:hostid]}")
-  chk = Getstatus.new()
-  #
   host_result = []
+  chk = Getstatus.new()
   checked = chk.parse_status("#{tdhost[0]}","#{tdhost[1]}")
   host_result << checked
   @result = host_result
-  erb :host, :layout => false
+  rawhash = chk.raw_json("#{tdhost[-1]}","#{tdhost[1]}")
+  @rawjson = MultiJson.dump(rawhash, :pretty => true)
+  #puts @rawjson
+  erb :host , :layout => false
 end
+
+#huga = '{"plugins":[{"plugin_id":"object:3fa0135ac81c","type":"monitor_agent","output_plugin":false,"config":{"type":"monitor_agent","bind":"0.0.0.0","port":"24220"}},{"plugin_id":"object:3fa0147081d8","type":"forward","output_plugin":false,"config":{"type":"forward","port":"24224"}},{"plugin_id":"object:3fa0146a5f60","type":"forward","output_plugin":true,"buffer_queue_length":0,"buffer_total_queued_size":0,"retry_count":0,"config":{"type":"forward","buffer_type":"file","buffer_path":"/tmp/fluentd/buffer","flush_interval":"60s"}}]}'
+#hoge = MultiJson.load(huga)
+#hoge = MultiJson.dump(hoge, :pretty => true)
+#puts hoge
