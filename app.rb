@@ -5,64 +5,56 @@ require 'open-uri'
 require 'erb'
 require 'sinatra/reloader'
 
-get '/status' do
-  file = open("./list.txt")
-  statuses = []
-  while text = file.gets do
+class Getstatus 
+  def parse_status(hostid,host)
     result = {}
-    arr = text.split(",")
-    status_url = "http://#{arr[0]}:24220/api/plugins.json"
-    begin
-      status_html = open("#{status_url}").read
-    rescue Errno::ECONNREFUSED
-      result[:host] = "#{arr[0]} not access"
-      result[:stats] = "critical"
+    status_html = open("http://#{host}:24220/api/plugins.json").read
+    parsed = JSON.parser.new(status_html).parse()
+    type = parsed['plugins'][2]['type']
+    rtc = parsed['plugins'][2]['retry_count']
+    bql = parsed['plugins'][2]['buffer_queue_length']
+    btqs = parsed['plugins'][2]['buffer_total_queued_size']
+    if (rtc >= 10 or bql >= 256 or btqs >= 2147483648 )
+      stats = "warning"
     else
-      parsed = JSON.parser.new(status_html).parse()
-      type = parsed['plugins'][2]['type']
-      rtc = parsed['plugins'][2]['retry_count']
-      bql = parsed['plugins'][2]['buffer_queue_length']
-      btqs = parsed['plugins'][2]['buffer_total_queued_size']
-      if (rtc >= 10 or bql >= 256 or btqs >= 2147483648 )
-        stats = "warning"
-      else
-        stats = "normally"
-      end
-      result[:host] = "#{arr[0]}"
-      result[:type] = type
-      result[:retry_count] = rtc
-      result[:buffer_queue_length] = bql
-      result[:buffer_total_queued_size] = btqs
-      result[:stats] = stats
+      stats = "normally"
     end
-  statuses << result
-  @result = statuses
+    result[:hostid] = hostid
+    result[:host] = host
+    result[:type] = type
+    result[:retry_count] = rtc
+    result[:buffer_queue_length] = bql
+    result[:buffer_total_queued_size] = btqs
+    result[:stats] = stats
+    return result
   end
+end
+
+get '/status' do
+  all_result = []
+  file = open("./list.txt")
+  while text = file.gets do
+    arr = text.split(",")
+    chk = Getstatus.new()
+    checked = chk.parse_status("#{arr[0]}","#{arr[1]}")
+    all_result << checked
+  end
+  @result = all_result
   erb :index
 end
 
-get '/status/:host' do
-  a = []
-  result = {}
-  status_url = "http://#{params[:host]}:24220/api/plugins.json"
-  status_html = open("#{status_url}").read
-  parsed = JSON.parser.new(status_html).parse()
-  type = parsed['plugins'][2]['type']
-  rtc = parsed['plugins'][2]['retry_count']
-  bql = parsed['plugins'][2]['buffer_queue_length']
-  btqs = parsed['plugins'][2]['buffer_total_queued_size']
-  if (rtc >= 10 or bql >= 256 or btqs >= 2147483648 )
-    stats = "warning"
-  else
-    stats = "normally"
+get '/status/:hostid' do
+  arr = []
+  file = open("./list.txt")
+  while text = file.gets do
+    arr << text.split(",")
   end
-  result[:host] = "#{params[:host]}"
-  result[:type] = type
-  result[:retry_count] = rtc
-  result[:buffer_queue_length] = bql
-  result[:buffer_total_queued_size] = btqs
-  result[:stats] = stats
-  a << result
-  @result = a
-  erb :host , :layout => false
+  tdhost = arr.assoc("#{params[:hostid]}")
+  chk = Getstatus.new()
+  #
+  host_result = []
+  checked = chk.parse_status("#{tdhost[0]}","#{tdhost[1]}")
+  host_result << checked
+  @result = host_result
+  erb :host, :layout => false
 end
