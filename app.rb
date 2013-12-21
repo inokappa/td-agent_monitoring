@@ -60,7 +60,7 @@ end
   end
   @result = all_result
   puts @result
-  #erb :index
+  erb :index
 #end
 
 #get '/status/:hostid' do
