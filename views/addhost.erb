@@ -1,0 +1,15 @@
+<% if ( @host != nil )%>
+  <div class="alert alert-success alert-dismissable">
+  <button type="button" class="close" data-dismiss="btn btn-danger" aria-hidden="true">&times;</button>
+  <strong>Added Host <%= @host %> success.</strong>
+  </div>
+  <!-- <div class="alert alert-success">Added Host <%= @host %> success.</div> -->
+<% end %>
+<form class="well" action="/addhost" method="post">
+<!-- <form action="/addhost" method="post"> -->
+  <label>Input Hostname or IP Address...</label>
+    <input type="text" class="span3" placeholder="Type something…" name="host">
+    <span class="help-inline"></span>
+  </label>
+  <button type="submit" class="btn"> Add </button>
+</form>
