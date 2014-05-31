@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Overview</div>
+<!--  <div class="panel-heading">　</div> -->
 
   <!-- Table -->
     <table class="table">
@@ -18,21 +18,27 @@
 <!-- -->
 <% @overview.each do |view| %>
   <% if ( view[:retry_count] != nil and view[:buffer_queue_length] != nil and view[:buffer_total_queued_size] != nil ) %>
-    <tr>
-    <td><%= view[:host] %></td> 
-    <td><%= view[:type] %></td> 
-    <td><%= view[:retry_count] %></td> 
-    <td><%= view[:buffer_queue_length] %></td>
-    <td><%= view[:buffer_total_queued_size] %></td>
-    <td><span class="label label-info"><a href="http://<%= $graphite_host %>/render?target=<%= view[:host]%>.<%= view[:type] %>.*&from=-1hours&lineMode=connected&format=png&height=400&width=600">Open Window</a></td>
     <% if view[:stats] == "normally" %>
-      <td><span class="label label-success"><%= view[:stats] %></span></td>
+      <tr class="info">
     <% elsif view[:stats] == "warning" %>
-      <td><span class="label label-warning"><%= view[:stats] %></span></td>
+      <tr class="warning">
     <% elsif view[:stats] == "critical" %>
-      <td><span class="label label-warning"><%= view[:stats] %></span></td>
+      <tr class="danger">
     <% end %>
-    </tr>
+      <td><%= view[:host] %></td> 
+      <td><%= view[:type] %></td> 
+      <td><%= view[:retry_count] %></td> 
+      <td><%= view[:buffer_queue_length] %></td>
+      <td><%= view[:buffer_total_queued_size] %></td>
+      <td><span class="label label-info"><a href="http://<%= $graphite_host %>/render?target=<%= view[:host]%>.<%= view[:type] %>.*&from=-1hours&lineMode=connected&format=png&height=400&width=600">Open Window</a></td>
+      <% if view[:stats] == "normally" %>
+        <td><span class="label label-success"><%= view[:stats] %></span></td>
+      <% elsif view[:stats] == "warning" %>
+        <td><span class="label label-warning"><%= view[:stats] %></span></td>
+      <% elsif view[:stats] == "critical" %>
+        <td><span class="label label-danger"><%= view[:stats] %></span></td>
+      <% end %>
+      </tr>
   <% end %>
 <% end %>
 <!-- -->
