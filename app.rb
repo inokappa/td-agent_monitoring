@@ -11,7 +11,9 @@ require 'graphite-api'
 $rtc_threshold = 10
 $bql_threshold = 256
 $btqs_threshold = 2147483648
-$graphite_host = "Graphite_URL:2003"
+$graphite_host = "GRAPHITE HOST"
+$graphite_port = "2003"
+$graphite_url = $graphite_host + ":" + $graphite_port
 #
 # Methods
 #
