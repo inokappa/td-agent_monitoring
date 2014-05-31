@@ -33,7 +33,9 @@
 
  ![](http://hogehuga.inokara.com/images/2014060101.png)
 
-#### メトリクス追加 
+#### メトリクス
+
+現状は `Open Window` をクリックすると `Graphite` の `Render API` を利用してメトリクスを表示させている。
 
  ![](http://hogehuga.inokara.com/images/2014060103.png)
 
