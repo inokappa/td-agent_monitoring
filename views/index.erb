@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Host list</div>
+  <div class="panel-heading">Overview</div>
 
   <!-- Table -->
     <table class="table">
@@ -10,6 +10,7 @@
            <th>retry_count</th>
            <th>buffer_queue_length</th>
            <th>buffer_total_queued_size</th>
+           <th>metrics</th>
            <th>status</th>
           </tr>
       </thead>
@@ -23,6 +24,7 @@
     <td><%= view[:retry_count] %></td> 
     <td><%= view[:buffer_queue_length] %></td>
     <td><%= view[:buffer_total_queued_size] %></td>
+    <td><span class="label label-info"><a href="http://<%= $graphite_host %>/render?target=<%= view[:host]%>.<%= view[:type] %>.*&from=-1hours&lineMode=connected&format=png&height=400&width=600">Open Window</a></td>
     <% if view[:stats] == "normally" %>
       <td><span class="label label-success"><%= view[:stats] %></span></td>
     <% elsif view[:stats] == "warning" %>
