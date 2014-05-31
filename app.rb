@@ -65,7 +65,7 @@ end
 #
 get '/overview' do
   results = []
-  file = open("./list.txt")
+  file = open("./hostlist.txt")
   while text = file.gets do
     result = {}
     arr = text.split(",")
@@ -90,4 +90,17 @@ get '/overview' do
     @overview = results
   end
   erb :index
+end
+
+get '/addhost' do
+  erb :addhost
+end
+
+post '/addhost' do
+  @host = @params[:host]
+  FILENAME = "./hostlist.txt"
+  f = open(FILENAME, "a")
+  f.print @host + ",\n"
+  f.close
+  erb :addhost
 end
