@@ -63,6 +63,10 @@ end
 #
 # Main
 #
+get '/' do
+  erb :index
+end
+#
 get '/overview' do
   results = []
   file = open("./hostlist.txt")
@@ -89,7 +93,7 @@ get '/overview' do
     end
     @overview = results
   end
-  erb :index
+  erb :overview
 end
 
 get '/addhost' do
@@ -103,4 +107,12 @@ post '/addhost' do
   f.print @host + ",\n"
   f.close
   erb :addhost
+end
+
+get '/delhost' do
+  erb :delhost
+end
+
+get '/hostlist' do
+  erb :hostlist
 end

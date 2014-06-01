@@ -1,0 +1,76 @@
+<div class="panel panel-default">
+<!--  <div class="panel-heading">　</div> -->
+
+  <!-- Table -->
+    <table class="table">
+      <thead>
+         <tr>
+           <th>Hostname / IP address</th>
+           <th>Plugin Type</th>
+           <th>retry_count</th>
+           <th>buffer_queue_length</th>
+           <th>buffer_total_queued_size</th>
+           <th>metrics</th>
+           <th>status</th>
+          </tr>
+      </thead>
+         <tbody>
+<!-- -->
+<% @overview.each do |view| %>
+  <% if ( view[:retry_count] != nil and view[:buffer_queue_length] != nil and view[:buffer_total_queued_size] != nil ) %>
+    <% if view[:stats] == "normally" %>
+      <tr>
+    <% elsif view[:stats] == "warning" %>
+      <tr class="warning">
+    <% elsif view[:stats] == "critical" %>
+      <tr class="danger">
+    <% end %>
+      <td><%= view[:host] %></td> 
+      <td><%= view[:type] %></td> 
+      <td><%= view[:retry_count] %></td> 
+      <td><%= view[:buffer_queue_length] %></td>
+      <td><%= view[:buffer_total_queued_size] %></td>
+
+      <td>
+
+<!-- Button trigger modal -->
+<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#<%= view[:host]%>-<%= view[:type] %>">
+  Open Metrics Window
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="<%= view[:host]%>-<%= view[:type] %>" tabindex="-1" role="dialog" aria-labelledby="<%= view[:host]%>-<%= view[:type] %>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="<%= view[:host]%>-<%= view[:type] %>">Host : <%= view[:host]%> / Plugin Type : <%= view[:type] %></h4>
+      </div>
+      <div class="modal-body">
+        <!-- <img src="http://<%= $graphite_host %>/render?target=<%= view[:host]%>.<%= view[:type] %>.*&from=-1hours&lineMode=connected&format=png&height=400&width=550"> -->
+        <img src="http://<%= $graphite_host %>/render?target=<%= view[:host]%>.<%= view[:type] %>.*&from=-10min&lineMode=connected&format=png&height=400&width=550">
+      </div>
+      <div class="modal-footer">
+        <a href="/overview" class="btn btn-primary">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </td>
+
+      <% if view[:stats] == "normally" %>
+        <td><span class="label label-success"><%= view[:stats] %></span></td>
+      <% elsif view[:stats] == "warning" %>
+        <td><span class="label label-warning"><%= view[:stats] %></span></td>
+      <% elsif view[:stats] == "critical" %>
+        <td><span class="label label-danger"><%= view[:stats] %></span></td>
+      <% end %>
+
+      </tr>
+  <% end %>
+<% end %>
+<!-- -->
+         </tbody>
+    </table>
+</div>
