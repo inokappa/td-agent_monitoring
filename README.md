@@ -35,19 +35,15 @@
 
 #### メトリクス
 
-現状は `Open Window` をクリックすると `Graphite` の `Render API` を利用してメトリクスを表示させている。
-
- ![](http://hogehuga.inokara.com/images/2014060113.png)
+ ![](http://hogehuga.inokara.com/images/2014060112.png)
 
 #### ホストの追加
 
- ![](http://hogehuga.inokara.com/images/2014060112.png)
+ ![](http://hogehuga.inokara.com/images/2014060113.png)
 
 ***
 
 ## todo
 
- * メトリクスの情報は `Modal` で表示出来るようにする
  * `5` 分ごとにブラウザをリフレッシュさせているのを止める
- * タブがちゃんと動いていないので動くようにする
  * ホストの登録は `Serf` を利用して自動で行えるようにしたい
