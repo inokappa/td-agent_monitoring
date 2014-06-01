@@ -33,13 +33,13 @@
 
  ![](http://hogehuga.inokara.com/images/2014060111.png)
 
-#### メトリクス追加 
+#### メトリクス 
 
- ![](http://hogehuga.inokara.com/images/2014060113.png)
+ ![](http://hogehuga.inokara.com/images/2014060112.png)
 
 #### ホストの追加
 
- ![](http://hogehuga.inokara.com/images/2014060112.png)
+ ![](http://hogehuga.inokara.com/images/2014060113.png)
 
 ***
 
