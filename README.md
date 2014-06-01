@@ -31,15 +31,15 @@
 
 #### ダッシュボード
 
- ![](http://hogehuga.inokara.com/images/2014060101.png)
+ ![](http://hogehuga.inokara.com/images/2014060111.png)
 
 #### メトリクス追加 
 
- ![](http://hogehuga.inokara.com/images/2014060103.png)
+ ![](http://hogehuga.inokara.com/images/2014060113.png)
 
 #### ホストの追加
 
- ![](http://hogehuga.inokara.com/images/2014060102.png)
+ ![](http://hogehuga.inokara.com/images/2014060112.png)
 
 ***
 
